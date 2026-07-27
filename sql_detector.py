@@ -5,7 +5,6 @@ try:
         code = file.read()
 
     print("File loaded successfully.")
-    print("\n========== Code Content ==========")
 
 except FileNotFoundError:
     print("File not found. Please check the filename and try again.")
