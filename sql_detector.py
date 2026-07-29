@@ -17,6 +17,7 @@ print("\n========== Scan Report ==========")
 
 lines = code.splitlines()
 found = False
+vulnerability_count = 0
 
 for line_number, line in enumerate(lines, start=1):
     upper_line = line.upper()
@@ -27,9 +28,13 @@ for line_number, line in enumerate(lines, start=1):
         if "+" in line:
             print(f"⚠️ Possible SQL Injection on line {line_number}")
             found = True
+            vulnerability_count += 1
 
 if not found:
     print("✅ No obvious SQL Injection vulnerability detected.")
+
+print("\n========== Summary ==========")
+print(f"Total vulnerabilities found: {vulnerability_count}")
 
 print("\n========== Risk Level ==========")
 
