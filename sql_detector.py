@@ -3,7 +3,7 @@ filename = input("Enter the filename to scan for SQL injection vulnerabilities: 
 try:
     with open(filename, 'r') as file:
         code = file.read()
-
+ 
     print("File loaded successfully.")
 
 except FileNotFoundError:
@@ -22,26 +22,29 @@ vulnerability_count = 0
 for line_number, line in enumerate(lines, start=1):
     upper_line = line.upper()
 
-    if any(keyword in upper_line for keyword in ["SELECT", "INSERT", "UPDATE", "DELETE"]):
-        print(f"SQL statement found on line {line_number}")
+    for keyword in ["SELECT", "INSERT", "UPDATE", "DELETE"]:
+        if keyword in upper_line:
+            print(f"🔍 SQL keyword found: {keyword} on line {line_number}")
 
-        if "+" in line:
-            print(f"⚠️ Possible SQL Injection on line {line_number}")
-            found = True
-            vulnerability_count += 1
+            if "+" in line:
+                print(f"⚠️ Possible SQL Injection on line {line_number}")
+                found = True
+                vulnerability_count += 1
 
 if not found:
     print("✅ No obvious SQL Injection vulnerability detected.")
-
+    
 print("\n========== Summary ==========")
 print(f"Total vulnerabilities found: {vulnerability_count}")
 
 print("\n========== Risk Level ==========")
 
-if found:
-    print("🔴 Risk Level: HIGH")
-else:
+if vulnerability_count == 0:
     print("🟢 Risk Level: LOW")
+elif vulnerability_count <= 2:
+    print("🟡 Risk Level: MEDIUM")
+else:
+    print("🔴 Risk Level: HIGH")
 
 print("\n========== Recommendation ==========")
 
